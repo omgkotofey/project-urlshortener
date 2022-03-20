@@ -3,6 +3,10 @@
   "version": "0.0.3",
   "description": "API project for freeCodeCamp",
   "main": "server.js",
+  "author": {
+    "name": "omgkotofey",
+    "email": "omgkotofey@gmail.com"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
