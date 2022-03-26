@@ -29,12 +29,11 @@ const ShortUrlManager = {
       }))
   ,
 
-  findUrl: (short_url, callback) => {
-    ShortUrl.findOne(
-      { "short_url": short_url },
-      callback
-    );
-  }
+  findUrl: (short_url) =>
+    ShortUrl.findOne({
+      "short_url": short_url
+    })
+    .exec()
 }
 
 exports.ShortUrlModel = ShortUrl;
