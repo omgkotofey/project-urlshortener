@@ -62,12 +62,8 @@ app.get('/api/shorturl/:url', urlencodedParser, (req, res) => {
 
   url_manager
   .findUrl(urlToFind)
-  .then(
-    (url) => res.json({
-      original_url: url.original_url,
-      short_url: url.short_url
-    })
-  ).catch((err) => 
+  .then((url) => res.redirect(url.original_url))
+  .catch((err) => 
     res
     .status(404)
     .json({
