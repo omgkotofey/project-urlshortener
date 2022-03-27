@@ -26,6 +26,8 @@ app.get('/api/hello', (req, res) => {
 app.post('/api/shorturl', urlencodedParser, (req, res) => {
   let original_url = req.body.url;
 
+  console.log(original_url);
+
   if (!original_url) {
     return res
       .status(400)
@@ -41,12 +43,14 @@ app.post('/api/shorturl', urlencodedParser, (req, res) => {
       original_url: url.original_url,
       short_url: url.short_url
     })
-  ).catch((err) => 
+  ).catch((err) => {
+    console.error(err);
     res
     .status(400)
     .json({
       error: 'invalid url'
-    }));
+    });
+  });
 });
 
 app.get('/api/shorturl/:url', urlencodedParser, (req, res) => {
@@ -63,12 +67,14 @@ app.get('/api/shorturl/:url', urlencodedParser, (req, res) => {
   url_manager
   .findUrl(urlToFind)
   .then((url) => res.redirect(url.original_url))
-  .catch((err) => 
+  .catch((err) => {
+    console.error(err);
     res
     .status(404)
     .json({
       error: 'not found'
-    }));
+    });
+  })
 });
 
 app.listen(port, function() {

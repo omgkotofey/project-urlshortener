@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const dns = require('dns');
+var http = require('http');
+var https = require('https');
 const url = require('url');
 const randomstring = require('randomstring');
 
@@ -11,12 +12,27 @@ const ShortUrl = mongoose.model('ShortUrl', new mongoose.Schema({
 }));
 
 const UrlValidator = {
-  validate: (givenUrl) => dns.promises.lookup(
-    (new URL(givenUrl)).host,
-    {
-      hints: dns.ADDRCONFIG | dns.V4MAPPED,
-    },
-  ).then((result) => givenUrl)
+  validate: (givenUrl) => new Promise((resolve, reject) => {
+    const url = new URL(givenUrl);
+    resolve(url);
+  })
+  .then((url) => new Promise((resolve, reject) => {
+    const httpClient = (url.protocol == "https:") ? https: http; 
+    let request = httpClient.get(url, res => {
+      
+      if (!res.statusCode || res.statusCode >= 400) {
+        reject(new Error('Status code'));
+      }
+      
+      resolve()
+    }).on('error', err => {
+      reject(err);
+    });
+
+    request.setTimeout(3000, () => reject(new Error('Timeout')));
+    
+  }))
+  .then(() => givenUrl)
 }
 
 const ShortUrlManager = {
