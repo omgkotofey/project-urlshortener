@@ -26,11 +26,10 @@ app.get('/api/hello', (req, res) => {
 app.post('/api/shorturl', urlencodedParser, (req, res) => {
   let original_url = req.body.url;
 
-  console.log(original_url);
+  console.info(original_url);
 
   if (!original_url) {
     return res
-      .status(400)
       .json({
         error: 'no url given'
       });
@@ -46,7 +45,6 @@ app.post('/api/shorturl', urlencodedParser, (req, res) => {
   ).catch((err) => {
     console.error(err);
     res
-    .status(400)
     .json({
       error: 'invalid url'
     });
@@ -58,7 +56,6 @@ app.get('/api/shorturl/:url', urlencodedParser, (req, res) => {
 
   if (!urlToFind) {
     return res
-      .status(400)
       .json({
         error: 'no url given'
       });
@@ -70,7 +67,6 @@ app.get('/api/shorturl/:url', urlencodedParser, (req, res) => {
   .catch((err) => {
     console.error(err);
     res
-    .status(404)
     .json({
       error: 'not found'
     });

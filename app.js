@@ -38,12 +38,11 @@ const UrlValidator = {
 const ShortUrlManager = {
   createUrl: (original_url, short_code = null) =>
     UrlValidator
-      .validate(original_url)
-      .then((original_url) => ShortUrl.create({
-        original_url: original_url,
-        short_url: short_code || randomstring.generate(7)
-      }))
-  ,
+    .validate(original_url)
+    .then((original_url) => ShortUrl.create({
+      original_url: original_url,
+      short_url: short_code || randomstring.generate(7)
+    })),
 
   findUrl: (short_url) =>
     ShortUrl.findOne({
